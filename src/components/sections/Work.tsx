@@ -1,107 +1,158 @@
 "use client";
 import { useRef, useEffect } from "react";
 import { gsap } from "@/lib/gsap";
-import type { Project } from "@/lib/types";
-import VideoCard from "@/components/ui/VideoCard";
 
-const projects: Project[] = [
+interface FeaturedProject {
+  id: string;
+  title: string;
+  href: string;
+  thumbnail: string;
+  span: string;
+  mobileOrder: number;
+}
+
+const projects: FeaturedProject[] = [
   {
-    id: "1",
+    id: "theory-verse",
     title: "Theory Verse",
-    client: "Theory Verse",
-    year: "2024",
-    category: "Web Design",
+    href: "https://locomotive.ca/en/work/theory-verse",
     thumbnail: "/images/project-1.jpg",
-    video: "/videos/hero-reel.mp4",
-    href: "#",
-    aspect: "landscape",
+    span: "1 / 8",
+    mobileOrder: 1,
   },
   {
-    id: "2",
+    id: "scout-motors",
     title: "Scout Motors",
-    client: "Scout Motors",
-    year: "2024",
-    category: "Digital Experience",
+    href: "https://locomotive.ca/en/work/scout-motors",
     thumbnail: "/images/project-2.jpg",
-    href: "#",
-    aspect: "portrait",
+    span: "8 / 13",
+    mobileOrder: 2,
   },
   {
-    id: "3",
+    id: "populous",
     title: "Populous",
-    client: "Populous",
-    year: "2024",
-    category: "Branding",
+    href: "https://locomotive.ca/en/work/populous",
     thumbnail: "/images/project-3.jpg",
-    href: "#",
-    aspect: "landscape",
+    span: "1 / 6",
+    mobileOrder: 3,
   },
   {
-    id: "4",
+    id: "mate-libre",
     title: "Mate Libre",
-    client: "Mate Libre",
-    year: "2023",
-    category: "E-Commerce",
+    href: "https://locomotive.ca/en/work/mate-libre",
     thumbnail: "/images/project-4.jpg",
-    video: "/videos/hero-reel.mp4",
-    href: "#",
-    aspect: "portrait",
+    span: "6 / 13",
+    mobileOrder: 4,
   },
   {
-    id: "5",
+    id: "destigmatize",
     title: "Destigmatize",
-    client: "Destigmatize",
-    year: "2023",
-    category: "Interactive",
+    href: "https://locomotive.ca/en/work/destigmatize",
     thumbnail: "/images/project-5.jpg",
-    href: "#",
-    aspect: "landscape",
-  },
-  {
-    id: "6",
-    title: "Design Canada",
-    client: "Design Canada",
-    year: "2023",
-    category: "Web App",
-    thumbnail: "/images/project-10.jpg",
-    href: "#",
-    aspect: "square",
+    span: "3 / 11",
+    mobileOrder: 5,
   },
 ];
 
-export default function Work() {
-  const sectionRef = useRef<HTMLElement>(null);
+function ProjectCard({ project, index }: { project: FeaturedProject; index: number }) {
+  const cardRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const section = sectionRef.current;
-    if (!section) return;
-
-    const cards = section.querySelectorAll<HTMLElement>(".work-card");
-    cards.forEach((card, i) => {
-      gsap.from(card, {
-        y: 60,
-        opacity: 0,
-        duration: 1.2,
-        ease: "power4.out",
-        scrollTrigger: {
-          trigger: card,
-          start: "top 85%",
-          toggleActions: "play none none none",
-        },
-        delay: (i % 3) * 0.15,
-      });
+    gsap.from(cardRef.current, {
+      y: 80,
+      opacity: 0,
+      duration: 1.4,
+      ease: "power4.out",
+      scrollTrigger: {
+        trigger: cardRef.current,
+        start: "top 88%",
+        toggleActions: "play none none none",
+      },
+      delay: (index % 2) * 0.15,
     });
-  }, []);
+  }, [index]);
 
-  // Editorial column spans for asymmetric grid
-  const spans = [
-    "1 / 8",  // wide left
-    "8 / 13", // narrow right
-    "1 / 6",  // narrow left
-    "6 / 13", // wide right
-    "1 / 7",  // half
-    "7 / 13", // half
-  ];
+  return (
+    <div ref={cardRef} className="work-card-item" style={{ gridColumn: project.span }}>
+      <a
+        href={project.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="group"
+        data-cursor-label="View"
+        style={{ display: "block", cursor: "none" }}
+      >
+        <div
+          style={{
+            position: "relative",
+            overflow: "hidden",
+            borderRadius: "4px",
+            background: "#1a1a1a",
+            aspectRatio: index === 1 || index === 3 ? "3/4" : "16/10",
+            marginBottom: "1.2rem",
+          }}
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={project.thumbnail}
+            alt={project.title}
+            loading={index < 2 ? "eager" : "lazy"}
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              position: "absolute",
+              inset: 0,
+              transition: "transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)",
+            }}
+            className="group-hover:scale-105"
+          />
+
+          {/* Hover gradient */}
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              background: "linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 50%)",
+              opacity: 0,
+              transition: "opacity 0.5s",
+            }}
+            className="group-hover:opacity-100"
+          />
+        </div>
+
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <h3
+            style={{
+              fontFamily: "var(--font-display)",
+              fontSize: "clamp(1.1rem, 1.8vw, 1.5rem)",
+              fontWeight: 400,
+              color: "var(--color-text)",
+            }}
+          >
+            {project.title}
+          </h3>
+          <span
+            style={{
+              fontSize: "0.75rem",
+              fontWeight: 500,
+              letterSpacing: "0.08em",
+              textTransform: "uppercase",
+              color: "var(--color-text-muted)",
+              transition: "color 0.3s",
+            }}
+            className="group-hover:!text-[var(--color-accent)]"
+          >
+            Read more →
+          </span>
+        </div>
+      </a>
+    </div>
+  );
+}
+
+export default function Work() {
+  const sectionRef = useRef<HTMLElement>(null);
 
   return (
     <section
@@ -124,22 +175,20 @@ export default function Work() {
           paddingTop: "2rem",
         }}
       >
-        <div>
-          <p className="text-label" style={{ marginBottom: "0.8rem" }}>
-            Selected work
-          </p>
-          <h2 className="text-display">Featured Projects</h2>
-        </div>
+        <h2 className="text-display">Featured work</h2>
         <a
-          href="#"
+          href="https://locomotive.ca/en/work"
+          target="_blank"
+          rel="noopener noreferrer"
           className="text-label"
           style={{
             color: "var(--color-text-muted)",
             textDecoration: "underline",
             textUnderlineOffset: "4px",
+            transition: "color 0.3s",
           }}
         >
-          View all work
+          See all projects
         </a>
       </div>
 
@@ -150,25 +199,17 @@ export default function Work() {
           display: "grid",
           gridTemplateColumns: "repeat(12, 1fr)",
           gap: "clamp(1rem, 2vw, 2rem)",
-          rowGap: "clamp(2rem, 4vw, 4rem)",
+          rowGap: "clamp(3rem, 5vw, 5rem)",
         }}
       >
         {projects.map((project, i) => (
-          <div
-            key={project.id}
-            style={{ gridColumn: spans[i] || "span 6" }}
-            className="work-grid-item"
-          >
-            <VideoCard project={project} />
-          </div>
+          <ProjectCard key={project.id} project={project} index={i} />
         ))}
       </div>
 
       <style>{`
         @media (max-width: 768px) {
-          .work-grid-item {
-            grid-column: 1 / -1 !important;
-          }
+          .work-card-item { grid-column: 1 / -1 !important; }
         }
       `}</style>
     </section>

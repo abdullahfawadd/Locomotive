@@ -110,10 +110,23 @@ export default function About() {
           <div style={{ maxWidth: "48ch" }}>
             <h2
               className="text-display about-line"
-              style={{ marginBottom: "2rem" }}
+              style={{ marginBottom: "1rem" }}
             >
               Design and code are only tools of expression.
             </h2>
+            <p
+              className="about-line"
+              style={{
+                fontFamily: "var(--font-display)",
+                fontSize: "clamp(1.4rem, 2.5vw, 2rem)",
+                fontWeight: 300,
+                color: "var(--color-accent)",
+                marginBottom: "2rem",
+                letterSpacing: "-0.01em",
+              }}
+            >
+              Always looking for top shelf talent
+            </p>
 
             <p
               className="text-body-lg about-line"
@@ -137,7 +150,9 @@ export default function About() {
 
             <div className="about-line" style={{ display: "flex", gap: "2rem" }}>
               <a
-                href="#services"
+                href="https://locomotive.ca/en/agency"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-label"
                 style={{
                   color: "var(--color-text)",
@@ -148,7 +163,9 @@ export default function About() {
                 Agency →
               </a>
               <a
-                href="#careers"
+                href="https://locomotive.ca/en/careers"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-label"
                 style={{
                   color: "var(--color-text)",
@@ -172,8 +189,9 @@ export default function About() {
               background: "#1a1a1a",
             }}
           >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/images/project-4.jpg"
+              src="/images/project-6.jpg"
               alt="Locomotive Studio"
               loading="lazy"
               className="about-image-parallax"

@@ -164,11 +164,11 @@ export default function Services() {
 
   // Background image on hover
   const bgImages = [
-    "/images/project-1.jpg",
-    "/images/project-5.jpg",
+    "/images/project-7.jpg",
+    "/images/project-8.jpg",
+    "/images/project-9.jpg",
     "/images/project-10.jpg",
-    "/images/project-13.jpg",
-    "/images/project-15.jpg",
+    "/images/project-11.jpg",
   ];
 
   useEffect(() => {

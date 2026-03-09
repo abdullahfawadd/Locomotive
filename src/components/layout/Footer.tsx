@@ -2,12 +2,27 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "@/lib/gsap";
 
-const socials = [
+const footerLinks = [
+  { label: "Work", href: "https://locomotive.ca/en/work" },
+  { label: "Agency", href: "https://locomotive.ca/en/agency" },
+  { label: "Careers", href: "https://locomotive.ca/en/careers" },
+  { label: "Let\u2019s talk", href: "https://locomotive.ca/en/contact" },
+  { label: "Privacy", href: "https://locomotive.ca/en/privacy-policy" },
+];
+
+const socialLinks = [
   { label: "Instagram", href: "https://www.instagram.com/locomotivemtl/" },
   { label: "Twitter", href: "https://twitter.com/locomotivemtl" },
   { label: "LinkedIn", href: "https://www.linkedin.com/company/locomotive-mtl" },
-  { label: "GitHub", href: "https://github.com/locomotivemtl" },
   { label: "Behance", href: "https://www.behance.net/locomotivemtl" },
+  { label: "GitHub", href: "https://github.com/locomotivemtl" },
+];
+
+const extraLinks = [
+  { label: "Store", href: "https://store.locomotive.ca/" },
+  { label: "Locomotive Scroll", href: "https://scroll.locomotive.ca/" },
+  { label: "Annual trips", href: "https://explore.locomotive.ca/en" },
+  { label: "Dynasty", href: "https://six.locomotive.ca/en/" },
 ];
 
 export default function Footer() {
@@ -41,91 +56,141 @@ export default function Footer() {
         borderTop: "1px solid var(--color-border)",
       }}
     >
-      {/* Big CTA */}
-      <div style={{ marginBottom: "var(--space-xl)" }}>
-        <p className="text-label" style={{ marginBottom: "2rem" }}>
-          Ready to create something great?
-        </p>
-        <h2
-          ref={ctaRef}
+      {/* Dynasty Awards Badge */}
+      <div
+        style={{
+          marginBottom: "var(--space-xl)",
+          paddingBottom: "var(--space-lg)",
+          borderBottom: "1px solid var(--color-border)",
+        }}
+      >
+        <div
           style={{
-            fontFamily: "var(--font-display)",
-            fontSize: "clamp(3rem, 10vw, 12rem)",
-            fontWeight: 300,
-            lineHeight: 0.9,
-            letterSpacing: "-0.04em",
-            marginBottom: "3rem",
-          }}
-        >
-          Let&apos;s work<br />
-          <span style={{ color: "var(--color-accent)" }}>together.</span>
-        </h2>
-        <a
-          href="mailto:info@locomotive.ca"
-          style={{
-            display: "inline-flex",
+            display: "flex",
             alignItems: "center",
+            justifyContent: "space-between",
+            flexWrap: "wrap",
             gap: "1rem",
-            fontFamily: "var(--font-display)",
-            fontSize: "clamp(1rem, 2vw, 1.5rem)",
-            fontWeight: 300,
-            color: "var(--color-text-muted)",
-            textDecoration: "underline",
-            textUnderlineOffset: "6px",
-            transition: "color 0.3s",
           }}
-          className="hover:text-white!"
         >
-          info@locomotive.ca
-        </a>
+          <div>
+            <p
+              style={{
+                fontFamily: "var(--font-display)",
+                fontSize: "clamp(2rem, 4vw, 3.5rem)",
+                fontWeight: 200,
+                color: "var(--color-text-muted)",
+                lineHeight: 1.1,
+              }}
+            >
+              Seven Years<br />Running
+            </p>
+            <p className="text-label" style={{ marginTop: "0.5rem", color: "var(--color-text-muted)" }}>
+              2018–2024
+            </p>
+          </div>
+          <a
+            href="https://six.locomotive.ca/en/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-label group"
+            style={{
+              color: "var(--color-accent)",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "0.5rem",
+              transition: "gap 0.3s",
+            }}
+          >
+            The dynasty
+            <span className="group-hover:translate-x-1" style={{ transition: "transform 0.3s" }}>→</span>
+          </a>
+        </div>
       </div>
 
-      {/* Address */}
+      {/* Address & Contact */}
       <div
         style={{
           display: "grid",
           gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
-          gap: "2rem",
+          gap: "2.5rem",
           marginBottom: "var(--space-lg)",
-          paddingTop: "2rem",
-          borderTop: "1px solid var(--color-border)",
         }}
       >
+        {/* Location */}
         <div>
-          <p className="text-label" style={{ marginBottom: "0.8rem" }}>Location</p>
-          <p style={{ color: "var(--color-text-muted)", fontSize: "0.9rem", lineHeight: 1.6 }}>
+          <a
+            href="https://goo.gl/maps/gP8aN5aEvZd8Ejau8"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: "var(--color-text-muted)", fontSize: "0.9rem", lineHeight: 1.8, transition: "color 0.2s" }}
+          >
             1211 Jean-Talon Est<br />
             Montréal (QC), Canada<br />
             H2R 1W1
-          </p>
+          </a>
         </div>
+
+        {/* Contact */}
         <div>
-          <p className="text-label" style={{ marginBottom: "0.8rem" }}>Contact</p>
           <p style={{ fontSize: "0.9rem", lineHeight: 1.8 }}>
             <a href="tel:+15145245678" style={{ color: "var(--color-text-muted)", transition: "color 0.2s" }}>
-              +1 514 524 5678
+              Telephone +1 514 524 5678
             </a>
             <br />
             <a href="mailto:info@locomotive.ca" style={{ color: "var(--color-text-muted)", transition: "color 0.2s" }}>
-              info@locomotive.ca
+              info @ locomotive.ca
             </a>
           </p>
         </div>
+
+        {/* Pages */}
         <div>
-          <p className="text-label" style={{ marginBottom: "0.8rem" }}>Follow</p>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: "1rem" }}>
-            {socials.map((s) => (
+          <div style={{ display: "flex", flexDirection: "column", gap: "0.6rem" }}>
+            {footerLinks.map((link) => (
               <a
-                key={s.label}
-                href={s.href}
+                key={link.label}
+                href={link.href}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-label"
                 style={{ color: "var(--color-text-muted)", transition: "color 0.2s" }}
               >
-                {s.label}
+                {link.label}
               </a>
             ))}
+          </div>
+        </div>
+
+        {/* Social + Extras */}
+        <div>
+          <div style={{ display: "flex", flexDirection: "column", gap: "0.6rem" }}>
+            {socialLinks.map((link) => (
+              <a
+                key={link.label}
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-label"
+                style={{ color: "var(--color-text-muted)", transition: "color 0.2s" }}
+              >
+                {link.label}
+              </a>
+            ))}
+            <div style={{ marginTop: "0.5rem", paddingTop: "0.5rem", borderTop: "1px solid var(--color-border)" }}>
+              {extraLinks.map((link) => (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-label"
+                  style={{ color: "var(--color-text-muted)", transition: "color 0.2s", display: "block", marginBottom: "0.6rem" }}
+                >
+                  {link.label}
+                </a>
+              ))}
+            </div>
           </div>
         </div>
       </div>
@@ -142,7 +207,7 @@ export default function Footer() {
           gap: "1rem",
         }}
       >
-        <p className="text-label">© 2008–{new Date().getFullYear()} Locomotive®</p>
+        <p className="text-label">©2008–{new Date().getFullYear()} Locomotive®</p>
         <button
           onClick={scrollToTop}
           className="text-label"
@@ -151,6 +216,7 @@ export default function Footer() {
             background: "none",
             border: "none",
             cursor: "pointer",
+            transition: "color 0.2s",
           }}
         >
           Back to top ↑

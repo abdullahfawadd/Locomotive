@@ -10,12 +10,6 @@ export interface Project {
   aspect: "landscape" | "portrait" | "square";
 }
 
-export interface TeamMember {
-  name: string;
-  role: string;
-  image: string;
-}
-
 export interface Service {
   number: string;
   title: string;
