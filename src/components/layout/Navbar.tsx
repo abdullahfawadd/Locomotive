@@ -5,9 +5,9 @@ import { gsap } from "@/lib/gsap";
 
 const navLinks = [
   { label: "Work", href: "#work" },
-  { label: "About", href: "#about" },
+  { label: "Study", href: "#about" },
   { label: "Services", href: "#services" },
-  { label: "Culture", href: "#culture" },
+  { label: "Contact", href: "#contact" },
 ];
 
 export default function Navbar() {
@@ -59,7 +59,7 @@ export default function Navbar() {
             fontFamily: "var(--font-display)",
           }}
         >
-          Locomotive<span style={{ color: "var(--color-accent)" }}>®</span>
+          Locomotive<span style={{ color: "var(--color-accent)" }}>Study</span>
         </Link>
 
         {/* Desktop Links */}

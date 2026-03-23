@@ -9,6 +9,8 @@ interface FeaturedProject {
   thumbnail: string;
   span: string;
   mobileOrder: number;
+  category: string;
+  summary: string;
 }
 
 const projects: FeaturedProject[] = [
@@ -19,6 +21,8 @@ const projects: FeaturedProject[] = [
     thumbnail: "/images/project-1.jpg",
     span: "1 / 8",
     mobileOrder: 1,
+    category: "Brand world / interactive showcase",
+    summary: "A cinematic landing experience built to reveal story, dimension and product depth through motion.",
   },
   {
     id: "scout-motors",
@@ -27,6 +31,8 @@ const projects: FeaturedProject[] = [
     thumbnail: "/images/project-2.jpg",
     span: "8 / 13",
     mobileOrder: 2,
+    category: "Automotive / product platform",
+    summary: "Editorial product storytelling layered with performance-conscious interactions and scalable components.",
   },
   {
     id: "populous",
@@ -35,6 +41,8 @@ const projects: FeaturedProject[] = [
     thumbnail: "/images/project-3.jpg",
     span: "1 / 6",
     mobileOrder: 3,
+    category: "Culture / digital identity",
+    summary: "A visual system where typography, mood and movement establish a memorable digital voice.",
   },
   {
     id: "mate-libre",
@@ -43,6 +51,8 @@ const projects: FeaturedProject[] = [
     thumbnail: "/images/project-4.jpg",
     span: "6 / 13",
     mobileOrder: 4,
+    category: "Consumer / campaign storytelling",
+    summary: "A bold interface designed to feel tactile, bright and unmistakably editorial across every breakpoint.",
   },
   {
     id: "destigmatize",
@@ -51,6 +61,8 @@ const projects: FeaturedProject[] = [
     thumbnail: "/images/project-5.jpg",
     span: "3 / 11",
     mobileOrder: 5,
+    category: "Non-profit / narrative design",
+    summary: "A more restrained visual rhythm that lets message, empathy and accessibility lead the experience.",
   },
 ];
 
@@ -61,19 +73,19 @@ function ProjectCard({ project, index }: { project: FeaturedProject; index: numb
     gsap.from(cardRef.current, {
       y: 80,
       opacity: 0,
-      duration: 1.4,
+      duration: 1.2,
       ease: "power4.out",
       scrollTrigger: {
         trigger: cardRef.current,
         start: "top 88%",
         toggleActions: "play none none none",
       },
-      delay: (index % 2) * 0.15,
+      delay: (index % 2) * 0.12,
     });
   }, [index]);
 
   return (
-    <div ref={cardRef} className="work-card-item" style={{ gridColumn: project.span }}>
+    <div ref={cardRef} className="work-card-item" style={{ gridColumn: project.span, order: project.mobileOrder }}>
       <a
         href={project.href}
         target="_blank"
@@ -82,16 +94,7 @@ function ProjectCard({ project, index }: { project: FeaturedProject; index: numb
         data-cursor-label="View"
         style={{ display: "block", cursor: "none" }}
       >
-        <div
-          style={{
-            position: "relative",
-            overflow: "hidden",
-            borderRadius: "4px",
-            background: "#1a1a1a",
-            aspectRatio: index === 1 || index === 3 ? "3/4" : "16/10",
-            marginBottom: "1.2rem",
-          }}
-        >
+        <div className="work-card-media" style={{ aspectRatio: index === 1 || index === 3 ? "3/4" : "16/10" }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={project.thumbnail}
@@ -107,44 +110,18 @@ function ProjectCard({ project, index }: { project: FeaturedProject; index: numb
             }}
             className="group-hover:scale-105"
           />
-
-          {/* Hover gradient */}
-          <div
-            style={{
-              position: "absolute",
-              inset: 0,
-              background: "linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 50%)",
-              opacity: 0,
-              transition: "opacity 0.5s",
-            }}
-            className="group-hover:opacity-100"
-          />
+          <div className="work-card-media__overlay" />
         </div>
 
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <h3
-            style={{
-              fontFamily: "var(--font-display)",
-              fontSize: "clamp(1.1rem, 1.8vw, 1.5rem)",
-              fontWeight: 400,
-              color: "var(--color-text)",
-            }}
-          >
-            {project.title}
-          </h3>
-          <span
-            style={{
-              fontSize: "0.75rem",
-              fontWeight: 500,
-              letterSpacing: "0.08em",
-              textTransform: "uppercase",
-              color: "var(--color-text-muted)",
-              transition: "color 0.3s",
-            }}
-            className="group-hover:!text-[var(--color-accent)]"
-          >
-            Read more →
-          </span>
+        <div className="work-card-copy">
+          <p className="text-label" style={{ marginBottom: "0.65rem", color: "var(--color-accent)" }}>
+            {project.category}
+          </p>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "1rem" }}>
+            <h3 className="work-card-title">{project.title}</h3>
+            <span className="work-card-link">Read more →</span>
+          </div>
+          <p className="work-card-summary">{project.summary}</p>
         </div>
       </a>
     </div>
@@ -155,53 +132,38 @@ export default function Work() {
   const sectionRef = useRef<HTMLElement>(null);
 
   return (
-    <section
-      ref={sectionRef}
-      id="work"
-      data-scroll-section
-      style={{
-        padding: "var(--space-xl) clamp(1.5rem, 4vw, 4rem)",
-        background: "var(--color-bg)",
-      }}
-    >
-      {/* Section header */}
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "flex-end",
-          marginBottom: "var(--space-lg)",
-          borderTop: "1px solid var(--color-border)",
-          paddingTop: "2rem",
-        }}
-      >
-        <h2 className="text-display">Featured work</h2>
-        <a
-          href="https://locomotive.ca/en/work"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-label"
-          style={{
-            color: "var(--color-text-muted)",
-            textDecoration: "underline",
-            textUnderlineOffset: "4px",
-            transition: "color 0.3s",
-          }}
-        >
-          See all projects
-        </a>
+    <section ref={sectionRef} id="work" data-scroll-section className="section-shell">
+      <div className="section-grid-two section-rule section-rule--tight">
+        <div>
+          <p className="text-label" style={{ marginBottom: "0.8rem" }}>
+            Featured work
+          </p>
+          <h2 className="text-display" style={{ maxWidth: "10ch" }}>
+            A portfolio designed to feel immersive from the first fold onward.
+          </h2>
+        </div>
+        <div style={{ maxWidth: "34rem", justifySelf: "end" }}>
+          <p className="text-body-lg" style={{ color: "var(--color-text-muted)", marginBottom: "1.25rem" }}>
+            The grid below pushes the current build closer to a premium studio homepage: staggered proportions, strong editorial hierarchy and image-led storytelling.
+          </p>
+          <a
+            href="https://locomotive.ca/en/work"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-label"
+            style={{
+              color: "var(--color-text-muted)",
+              textDecoration: "underline",
+              textUnderlineOffset: "4px",
+              transition: "color 0.3s",
+            }}
+          >
+            See all projects
+          </a>
+        </div>
       </div>
 
-      {/* Projects grid */}
-      <div
-        className="work-grid"
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(12, 1fr)",
-          gap: "clamp(1rem, 2vw, 2rem)",
-          rowGap: "clamp(3rem, 5vw, 5rem)",
-        }}
-      >
+      <div className="work-grid" style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: "clamp(1rem, 2vw, 2rem)", rowGap: "clamp(3rem, 5vw, 5rem)" }}>
         {projects.map((project, i) => (
           <ProjectCard key={project.id} project={project} index={i} />
         ))}
