@@ -13,7 +13,6 @@ export default function CustomCursor() {
     const label = cursorLabelRef.current;
     if (!dot || !ring || !label) return;
 
-    // Hide on touch devices
     if ("ontouchstart" in window) {
       dot.style.display = "none";
       ring.style.display = "none";
@@ -24,65 +23,49 @@ export default function CustomCursor() {
     let mouseY = 0;
     let ringX = 0;
     let ringY = 0;
-    let raf: number;
+    let raf = 0;
 
-    const onMouseMove = (e: MouseEvent) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-      gsap.to(dot, { x: mouseX, y: mouseY, duration: 0.1 });
+    const setCursorState = (target: HTMLElement | null) => {
+      const cursorLabel = target?.dataset.cursorLabel;
+      const isInteractive = Boolean(
+        target?.closest("a, button, [data-cursor], video, .work-card-item, .services-row")
+      );
+
+      dot.classList.toggle("cursor--hover", isInteractive);
+      ring.classList.toggle("cursor--hover", isInteractive);
+      label.textContent = cursorLabel ?? "";
+      label.style.opacity = cursorLabel && isInteractive ? "1" : "0";
     };
 
-    const animate = () => {
-      ringX += (mouseX - ringX) * 0.1;
-      ringY += (mouseY - ringY) * 0.1;
-      gsap.set(ring, { x: ringX, y: ringY });
-      raf = requestAnimationFrame(animate);
+    const onMouseMove = (event: MouseEvent) => {
+      mouseX = event.clientX;
+      mouseY = event.clientY;
+      gsap.to(dot, { x: mouseX, y: mouseY, duration: 0.1, overwrite: true });
+      setCursorState(event.target instanceof HTMLElement ? event.target : null);
     };
 
-    const addHoverClass = (e: Event) => {
-      const target = e.currentTarget as HTMLElement;
-      const cursorLabel = target.dataset.cursorLabel;
-      dot.classList.add("cursor--hover");
-      ring.classList.add("cursor--hover");
-      if (cursorLabel) {
-        label.textContent = cursorLabel;
-        label.style.opacity = "1";
-      }
-    };
-
-    const removeHoverClass = () => {
+    const onMouseLeave = () => {
       dot.classList.remove("cursor--hover");
       ring.classList.remove("cursor--hover");
       label.style.opacity = "0";
       label.textContent = "";
     };
 
-    const bindHovers = () => {
-      const hoverTargets = document.querySelectorAll(
-        "a, button, [data-cursor], video, .work-card"
-      );
-      hoverTargets.forEach((el) => {
-        el.addEventListener("mouseenter", addHoverClass);
-        el.addEventListener("mouseleave", removeHoverClass);
-      });
-      return hoverTargets;
+    const animate = () => {
+      ringX += (mouseX - ringX) * 0.12;
+      ringY += (mouseY - ringY) * 0.12;
+      gsap.set(ring, { x: ringX, y: ringY });
+      raf = window.requestAnimationFrame(animate);
     };
 
     document.addEventListener("mousemove", onMouseMove);
-    raf = requestAnimationFrame(animate);
-
-    // Bind after a short delay to catch dynamically rendered elements
-    const timeout = setTimeout(() => bindHovers(), 500);
-
-    // Also rebind on DOM changes
-    const observer = new MutationObserver(() => bindHovers());
-    observer.observe(document.body, { childList: true, subtree: true });
+    document.addEventListener("mouseleave", onMouseLeave);
+    raf = window.requestAnimationFrame(animate);
 
     return () => {
       document.removeEventListener("mousemove", onMouseMove);
-      cancelAnimationFrame(raf);
-      clearTimeout(timeout);
-      observer.disconnect();
+      document.removeEventListener("mouseleave", onMouseLeave);
+      window.cancelAnimationFrame(raf);
     };
   }, []);
 
@@ -149,8 +132,8 @@ export default function CustomCursor() {
           .cursor-dot, .cursor-ring { display: none !important; }
         }
         .cursor-dot.cursor--hover {
-          width: 0px !important;
-          height: 0px !important;
+          width: 0 !important;
+          height: 0 !important;
         }
         .cursor-ring.cursor--hover {
           width: 80px !important;
