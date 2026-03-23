@@ -80,7 +80,7 @@ export default function Extras() {
             { title: "Locomotive Scroll", desc: "Our open-source smooth scroll library", href: "https://scroll.locomotive.ca/", img: "/images/project-12.jpg" },
             { title: "Dynasty", desc: "Seven years running — 2018–2024 Awwwards", href: "https://six.locomotive.ca/en/", img: "/images/project-13.jpg" },
             { title: "Boilerplate", desc: "Our Next.js starter for new projects", href: "https://github.com/locomotivemtl", img: "/images/project-14.jpg" },
-          ].map((extra, i) => (
+          ].map((extra) => (
             <a
               key={extra.title}
               href={extra.href}
