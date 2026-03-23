@@ -5,13 +5,13 @@ import PageTransition from "@/components/ui/PageTransition";
 import Navbar from "@/components/layout/Navbar";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://locomotive.ca"),
-  title: "Locomotive® | Digital-first Design Agency — Montréal",
+  metadataBase: new URL("https://example.com"),
+  title: "Locomotive Study | Motion-led Agency Front-End Practice",
   description:
-    "Locomotive® offers a wide range of creative and strategic services for remarkable brands, companies and organizations. Over 15 years of meaningful, innovative, results-driven digital experiences, web design and branding.",
+    "A front-end practice project exploring a motion-rich agency landing page with editorial layouts, smooth transitions and portfolio storytelling.",
   openGraph: {
-    title: "Locomotive® | Digital-first Design Agency",
-    description: "Creative digital agency based in Montréal.",
+    title: "Locomotive Study | Motion-led Agency Front-End Practice",
+    description: "Front-end study inspired by premium digital agency websites.",
     images: ["/images/og-image.png"],
   },
 };
@@ -24,15 +24,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <link
-          rel="preconnect"
-          href="https://fonts.googleapis.com"
-        />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
           href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,200;0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap"
           rel="stylesheet"

@@ -1,254 +1,184 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
-import type { Service } from "@/lib/types";
 
-const services: Service[] = [
+type ServiceItemData = {
+  number: string;
+  title: string;
+  description: string;
+  tags: string[];
+  image: string;
+  eyebrow: string;
+};
+
+const services: ServiceItemData[] = [
   {
     number: "01",
     title: "Strategy",
     description:
-      "Brand strategy, digital strategy, content strategy, UX research, competitive analysis, and growth planning.",
-    tags: ["Brand Strategy", "UX Research", "Growth"],
+      "Discovery, positioning, UX thinking and content direction used to align the visual system with business goals before design begins.",
+    tags: ["Research", "Positioning", "Content systems"],
+    image: "/images/project-7.jpg",
+    eyebrow: "Start with clarity",
   },
   {
     number: "02",
     title: "Design",
     description:
-      "Brand identity, art direction, UI/UX design, motion design, illustration, and design systems.",
-    tags: ["Brand Identity", "UI/UX", "Motion Design"],
+      "Brand-led interfaces, motion studies, art direction and scalable component systems built to make every frame feel intentional.",
+    tags: ["Art direction", "UI systems", "Motion"],
+    image: "/images/project-8.jpg",
+    eyebrow: "Shape the visual language",
   },
   {
     number: "03",
     title: "Development",
     description:
-      "Front-end development, back-end development, CMS integration, e-commerce, WebGL, and interactive experiences.",
-    tags: ["Front-end", "Back-end", "WebGL"],
+      "Responsive front-end implementation, CMS integration and interaction engineering that keep the experience polished without sacrificing performance.",
+    tags: ["React / Next", "CMS", "Performance"],
+    image: "/images/project-9.jpg",
+    eyebrow: "Make it real",
   },
   {
     number: "04",
     title: "Content",
     description:
-      "Copywriting, content creation, photography, videography, social media, and editorial direction.",
-    tags: ["Copywriting", "Photography", "Video"],
+      "Copy, stills, motion and editorial sequencing that give the interface a stronger voice and a clearer reading rhythm.",
+    tags: ["Copy", "Photography", "Storytelling"],
+    image: "/images/project-10.jpg",
+    eyebrow: "Support the story",
   },
   {
     number: "05",
     title: "Growth",
     description:
-      "SEO optimization, analytics, conversion optimization, performance monitoring, and ongoing maintenance.",
-    tags: ["SEO", "Analytics", "Performance"],
+      "Measurement, optimization and iterative updates that help the launch evolve into a durable digital product rather than a one-off moment.",
+    tags: ["SEO", "Analytics", "Iteration"],
+    image: "/images/project-11.jpg",
+    eyebrow: "Refine after launch",
   },
 ];
 
-function ServiceItem({ service, index }: { service: Service; index: number }) {
-  const itemRef = useRef<HTMLDivElement>(null);
-  const [isHovered, setIsHovered] = useState(false);
-
-  useEffect(() => {
-    gsap.from(itemRef.current, {
-      y: 40,
-      opacity: 0,
-      duration: 1,
-      ease: "power4.out",
-      delay: index * 0.1,
-      scrollTrigger: {
-        trigger: itemRef.current,
-        start: "top 90%",
-        toggleActions: "play none none none",
-      },
-    });
-  }, [index]);
-
+function ServiceRow({
+  service,
+  isActive,
+  onActivate,
+}: {
+  service: ServiceItemData;
+  isActive: boolean;
+  onActivate: () => void;
+}) {
   return (
-    <div
-      ref={itemRef}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      style={{
-        borderBottom: "1px solid var(--color-border)",
-        padding: "2rem 0",
-        cursor: "none",
-        transition: "padding 0.5s var(--ease-out-expo)",
-        paddingLeft: isHovered ? "1rem" : "0",
-      }}
+    <button
+      type="button"
+      className="services-row"
+      onMouseEnter={onActivate}
+      onFocus={onActivate}
+      onClick={onActivate}
+      data-cursor-label="Open"
+      style={{ cursor: "none" }}
     >
-      <div style={{ display: "flex", alignItems: "flex-start", gap: "2rem" }}>
-        <span
-          style={{
-            fontFamily: "var(--font-display)",
-            fontSize: "clamp(0.8rem, 1.2vw, 1rem)",
-            fontWeight: 400,
-            color: "var(--color-accent)",
-            minWidth: "2rem",
-            paddingTop: "0.3rem",
-          }}
-        >
-          {service.number}
-        </span>
-
-        <div style={{ flex: 1 }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: isHovered ? "1rem" : "0" }}>
-            <h3
-              style={{
-                fontFamily: "var(--font-display)",
-                fontSize: "clamp(1.5rem, 3vw, 3rem)",
-                fontWeight: 300,
-                letterSpacing: "-0.02em",
-                transition: "color 0.3s",
-                color: isHovered ? "var(--color-text)" : "var(--color-text-muted)",
-              }}
-            >
-              {service.title}
-            </h3>
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              style={{
-                transform: isHovered ? "rotate(45deg)" : "rotate(0deg)",
-                transition: "transform 0.4s var(--ease-out-expo)",
-                flexShrink: 0,
-              }}
-            >
-              <path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor" strokeWidth="1.5" />
-            </svg>
-          </div>
-
-          <div
-            style={{
-              maxHeight: isHovered ? "200px" : "0",
-              overflow: "hidden",
-              transition: "max-height 0.6s var(--ease-out-expo), opacity 0.4s",
-              opacity: isHovered ? 1 : 0,
-            }}
+      <span className="services-row__number">{service.number}</span>
+      <div className="services-row__body">
+        <div className="services-row__titlebar">
+          <h3
+            className="services-row__title"
+            style={{ color: isActive ? "var(--color-text)" : "var(--color-text-muted)" }}
           >
-            <p
-              style={{
-                color: "var(--color-text-muted)",
-                fontSize: "0.95rem",
-                lineHeight: 1.6,
-                maxWidth: "50ch",
-                marginBottom: "1rem",
-              }}
-            >
-              {service.description}
-            </p>
-            <div style={{ display: "flex", gap: "0.8rem", flexWrap: "wrap" }}>
-              {service.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="text-label"
-                  style={{
-                    padding: "0.3rem 0.8rem",
-                    border: "1px solid var(--color-border)",
-                    borderRadius: "100px",
-                    fontSize: "0.65rem",
-                  }}
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-          </div>
+            {service.title}
+          </h3>
+          <span
+            className="services-row__icon"
+            style={{ transform: isActive ? "rotate(45deg)" : "rotate(0deg)" }}
+          >
+            ↗
+          </span>
         </div>
+        <p className="services-row__description" style={{ opacity: isActive ? 1 : 0.55 }}>
+          {service.description}
+        </p>
       </div>
-    </div>
+    </button>
   );
 }
 
 export default function Services() {
   const sectionRef = useRef<HTMLElement>(null);
-  const [activeIndex, setActiveIndex] = useState(-1);
+  const [activeIndex, setActiveIndex] = useState(0);
 
-  // Background image on hover
-  const bgImages = [
-    "/images/project-7.jpg",
-    "/images/project-8.jpg",
-    "/images/project-9.jpg",
-    "/images/project-10.jpg",
-    "/images/project-11.jpg",
-  ];
+  const activeService = useMemo(() => services[activeIndex] ?? services[0], [activeIndex]);
 
   useEffect(() => {
-    const el = sectionRef.current;
+    const section = sectionRef.current;
+    if (!section) return;
+
+    gsap.from(section.querySelectorAll(".services-reveal"), {
+      y: 35,
+      opacity: 0,
+      duration: 0.9,
+      stagger: 0.08,
+      scrollTrigger: {
+        trigger: section,
+        start: "top 80%",
+      },
+    });
+
     return () => {
       ScrollTrigger.getAll().forEach((st) => {
-        if (st.trigger === el) st.kill();
+        if (st.vars?.trigger && section.contains(st.vars.trigger as Node)) st.kill();
       });
     };
   }, []);
 
   return (
-    <section
-      ref={sectionRef}
-      id="services"
-      data-scroll-section
-      style={{
-        position: "relative",
-        padding: "var(--space-xl) clamp(1.5rem, 4vw, 4rem)",
-        background: "var(--color-bg)",
-        overflow: "hidden",
-      }}
-    >
-      {/* Background image that changes on hover */}
-      <div
-        style={{
-          position: "absolute",
-          inset: 0,
-          zIndex: 0,
-          transition: "opacity 0.6s",
-          opacity: activeIndex >= 0 ? 0.06 : 0,
-        }}
-      >
-        {bgImages.map((img, i) => (
-          <img
-            key={img}
-            src={img}
-            alt=""
-            style={{
-              position: "absolute",
-              inset: 0,
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-              opacity: activeIndex === i ? 1 : 0,
-              transition: "opacity 0.5s",
-            }}
-          />
-        ))}
-      </div>
-
-      <div style={{ position: "relative", zIndex: 1 }}>
-        {/* Section header */}
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "flex-end",
-            marginBottom: "var(--space-lg)",
-            borderTop: "1px solid var(--color-border)",
-            paddingTop: "2rem",
-          }}
-        >
-          <div>
+    <section ref={sectionRef} id="services" data-scroll-section className="services-section">
+      <div className="services-shell">
+        <div className="services-sidebar services-reveal">
+          <div className="section-rule" style={{ marginBottom: "1.8rem" }}>
             <p className="text-label" style={{ marginBottom: "0.8rem" }}>
               What we do
             </p>
-            <h2 className="text-display">Services</h2>
+            <h2 className="text-display" style={{ maxWidth: "8ch" }}>
+              A tighter service story with a live visual preview.
+            </h2>
+          </div>
+
+          <p className="text-body-lg services-reveal" style={{ color: "var(--color-text-muted)", marginBottom: "2rem" }}>
+            Instead of a flat accordion, this version keeps a persistent focal point on the left while the service list updates the supporting image and copy on the right.
+          </p>
+
+          <div className="services-preview-card services-reveal">
+            <div className="services-preview-card__media">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={activeService.image}
+                alt={activeService.title}
+                className="services-preview-card__image"
+              />
+            </div>
+            <div className="services-preview-card__copy">
+              <p className="text-label" style={{ color: "var(--color-accent)", marginBottom: "0.7rem" }}>
+                {activeService.eyebrow}
+              </p>
+              <h3 className="services-preview-card__title">{activeService.title}</h3>
+              <p className="services-preview-card__text">{activeService.description}</p>
+              <div className="services-preview-card__tags">
+                {activeService.tags.map((tag) => (
+                  <span key={tag}>{tag}</span>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* Services list */}
-        <div>
-          {services.map((service, i) => (
-            <div
-              key={service.number}
-              onMouseEnter={() => setActiveIndex(i)}
-              onMouseLeave={() => setActiveIndex(-1)}
-            >
-              <ServiceItem service={service} index={i} />
+        <div className="services-list">
+          {services.map((service, index) => (
+            <div key={service.number} className="services-reveal">
+              <ServiceRow
+                service={service}
+                isActive={activeIndex === index}
+                onActivate={() => setActiveIndex(index)}
+              />
             </div>
           ))}
         </div>

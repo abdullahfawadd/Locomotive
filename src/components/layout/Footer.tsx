@@ -26,7 +26,7 @@ const extraLinks = [
 ];
 
 export default function Footer() {
-  const ctaRef = useRef<HTMLHeadingElement>(null);
+  const ctaRef = useRef<HTMLParagraphElement>(null);
 
   useEffect(() => {
     gsap.from(ctaRef.current, {
@@ -75,6 +75,7 @@ export default function Footer() {
         >
           <div>
             <p
+              ref={ctaRef}
               style={{
                 fontFamily: "var(--font-display)",
                 fontSize: "clamp(2rem, 4vw, 3.5rem)",
@@ -83,11 +84,9 @@ export default function Footer() {
                 lineHeight: 1.1,
               }}
             >
-              Seven Years<br />Running
+              Front-end<br />Practice
             </p>
-            <p className="text-label" style={{ marginTop: "0.5rem", color: "var(--color-text-muted)" }}>
-              2018–2024
-            </p>
+            <p className="text-label" style={{ marginTop: "0.5rem", color: "var(--color-text-muted)" }}>Inspired by agency-grade craft</p>
           </div>
           <a
             href="https://six.locomotive.ca/en/"
@@ -101,8 +100,7 @@ export default function Footer() {
               gap: "0.5rem",
               transition: "gap 0.3s",
             }}
-          >
-            The dynasty
+          >Project notes
             <span className="group-hover:translate-x-1" style={{ transition: "transform 0.3s" }}>→</span>
           </a>
         </div>
@@ -207,7 +205,7 @@ export default function Footer() {
           gap: "1rem",
         }}
       >
-        <p className="text-label">©2008–{new Date().getFullYear()} Locomotive®</p>
+        <p className="text-label">©{new Date().getFullYear()} Locomotive Study</p>
         <button
           onClick={scrollToTop}
           className="text-label"
